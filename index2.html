@@ -2,30 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Three.js</title>
+
+    <title>Canvas 2D Context:三角形の描写うまくいかーず</title>
     <link rel="stylesheet" src="css/3js.css">
+<!--    1 canvas要素の準備（canvas要素の配置とcssによる領域の確保-->
+<!--    2 コンテキストの取得-->
+<!--    3 パスの生成-->
+<!--    4 線と塗りを描写-->
+    <style>
+        *{padding:0px; margin:0px}
+        #canvas_test{
+        width:500px;
+        height:500px;
+        background-color: #EEEEEE;
+        }
+    </style>
+    <script>
+        ////////////////////////////////////////////////
+        //windowイベントの定義
+        ////////////////////////////////////////////////
+        //HTML文書読み込み完了後に実行するイベントの定義
+        window.addEventListener('load',function(){
+            drawStart();//描写開始関数
+        });
+        ////////////////////////////////////////////////
+        //描写開始関数の定義
+        ////////////////////////////////////////////////
+        function drawStart(){
+            var canvas      = document.getElementById('frame');  //canvas要素の取得
+            canvas.width    = canvas.clientWidth;                //描写横幅の指定
+            canvas.height   = canvas.clientHeight;               //描写縦幅の指定
+            var context     = canvas.getContext('2d');           //コンテキストの取得
+            
+            //パスの設定
+            context.beginPath();      //パスの開始
+            context.moveTo(250,50);   //パスの始点の指定
+            context.lineTo(50,450);   //次の座標までパスを引く
+            context.lineTo(450,450);  //次の座標までパスを引く
+            context.closePath();      //パスの終了
+            
+            //線の設定
+            context.strokeStyle = '#FF0000';   //線色の指定
+            context.lineWidth = 10;            //線幅の指定
+            context.stroke();                  //線の描写
+            
+            //塗りの設定
+            context.fillStyle = 'blue';        //塗りつぶし色の指定
+            context.fill();                    //塗りつぶしの実行
+            
+
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </script>    
 </head>
 <body>
     
 <div id="frame"></div>    
-   
-   
-   
-<style>
-   #frame{
-    width:500px;
-    height:500px;
-    background-color:#EEEEEE;
-    } 
-</style>
 
-<script>
-//windwインベントの定義    
-    
-    
-    
-</script>    
-    
-    
+
 </body>
 </html>
