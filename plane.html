@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>平面オブジェクト</title>
+    <script src="js/three.js_r75/build/three.js"></script>
+    <script src="js/three.js_r75/examples/js/controls/TrackballControls.js"></script>
+    <style>
+        *{padding:0px; margin:0px}
+        div#canvas-frame{
+            width: 500px;
+            height: 500px;
+            overflow:hidden;
+        }
+    </style>
+<script>
+////////////////////////////////////////////
+//windowイベントの定義
+////////////////////////////////////////////
+window.addEventListener("load",function(){
+threeStart(); //Three.jsのスタート関数の実行
+});
+
+////////////////////////////////////////////
+//Three.jsスタート関数の定義    
+////////////////////////////////////////////   
+function threeStart(){
+    initThree();  //Three.js初期化関数の実行
+    initObject(); //オブジェクト初期化関数の実行
+    initCamera(); //カメラ初期化関数の実行
+    loop();       //無限ループ関数の実行
+}
+////////////////////////////////////////////
+//Three.js初期化関数の定義
+////////////////////////////////////////////
+//グローバル変数の宣言
+////////////////////////////////////////////
+var renderer,   //レンダラーオブジェクト
+    scene,      //シーンオブジェクト
+    canvasFrame;//キャンヴバスフレームのDOM要素
+function initThree(){
+    //キャンバスフレームDOM要素の取得
+    canvasFrame = document.getElementById('canvas-frame');
+    //レンダラーオブジェクトの生成
+    renderer = new THREE.WebGLRenderer({ antialias: true});
+    //renderer = new THREE.Canvasrenderer();
+    
+    
+    if (!renderer) alert('Three.jsの初期化に失敗しました。');
+    //レンダラーのサイズ設定
+    renderer.setSize(canvasFrame.clientWidth,
+                    canvasFrame.clientHeight);
+    //キャンバスフレームDOM要素にcanvas要素を追加
+    canvasFrame.appendChild(renderer.domElemnt);
+    
+    //レンダラークリアカラーの設定
+    renderer.setClearColor(0xEEEEEE, 1.0);
+    
+    //シーンオブジェクトの生成
+    scene = new THREE.Scene();
+}
+    
+////////////////////////////////////////////
+//カメラ初期化関数の定義
+////////////////////////////////////////////
+//グローバル変数の宣言
+
+var camera;  //カメラオブジェクト
+function initCamera();
+    //カメラオブジェクトの生成
+    camera = new THREE.PerspectiveCamera(45,canvasFrame.clientWidth / canvasFrame.clientHeight, 1,10000);
+    
+    //カメラの位置の設定
+    camera.position.set(100, 100, 100);
+    //カメラの上ベクトルの設定
+    camera.up.set(0, 0, 1);
+    //カメラの中心位置ベクトルの設定.
+    camera.lookAt({x:0,y:0,z:0}); //トラックボール利用時は自動的に無効
+    
+    //トラックボールオブジェクトの宣言
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</script>
+
+</head>
+
+<body>
+    
+</body>
+</html>
