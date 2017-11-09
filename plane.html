@@ -51,7 +51,7 @@ function initThree(){
     renderer.setSize(canvasFrame.clientWidth,
                     canvasFrame.clientHeight);
     //キャンバスフレームDOM要素にcanvas要素を追加
-    canvasFrame.appendChild(renderer.domElemnt);
+    canvasFrame.appendChild(renderer.domElement);
     
     //レンダラークリアカラーの設定
     renderer.setClearColor(0xEEEEEE, 1.0);
@@ -66,7 +66,7 @@ function initThree(){
 //グローバル変数の宣言
 
 var camera;  //カメラオブジェクト
-function initCamera();
+function initCamera(){
     //カメラオブジェクトの生成
     camera = new THREE.PerspectiveCamera(45,canvasFrame.clientWidth / canvasFrame.clientHeight, 1,10000);
     
@@ -78,26 +78,145 @@ function initCamera();
     camera.lookAt({x:0,y:0,z:0}); //トラックボール利用時は自動的に無効
     
     //トラックボールオブジェクトの宣言
+    trackball = new THREE.TrackballControls(camera,canvasFrame);
+    
+    //トラックボール動作範囲のサイズとオフセットの設定
+    //横幅
+    trackball.screen.width = canvasFrame.clientWidth;
+    
+    //縦幅
+    trackball.screen.height = canvasFrame.clientHeight;
+    
+    trackball.screen.offsetLeft =
+        canvasFrame.getBoundingClientRect().left;
+    trackball.screen.offsetTop =
+        canvasFrame.getBoundingClientRect().top;
+    
+    //トラックボールの回転無効化と回転速度の決定
+    trackball.noZoom = false;
+    trackball.zoomSpeed = 4.0;
+    
+    //トラックボールのカメラ中心移動の無効化と中心速度の設定
+    trackball.noPan = false;
+    trackball.panSpeed = 1.0;
+    trackball.target = new THREE.Vector3(0,0,0);
+    
+    //トラックボールのスタティックムーブの有効化
+    trackball.staticMoving = true;
+    //トラックボールのダイナミックムーブ時の減衰定数
+    trackball.dynamicDampingFactor =0.3;
+    
+}
+    
+/////////////////
+//オブジェクト初期化関数の定義
+/////////////////
+
+var axis;  //軸オブジェクト
+var plane;  //平面オブジェクト
+
+function initObject(){
+    //軸オブジェクトの生成
+    axis = new THREE.AxisHelper(100);
+    //軸オブジェクトのシーンへの追加
+    scene.add(axis);
+    //軸オブジェクトの位置座標を設定
+    axis.position.set(0,0,0);
+    //形状オブジェクトの宣言と生成
+    var geometry = new THREE.PlaneGeometry(100,100);
+    //材質オブジェクトの宣言と生成
+    var material = new THREE.MeshNormalMaterial();
+    //平面オブジェクトの生成
+    plane = new THREE.Mesh(geometry,material);
+    //平面オブジェクトのシーンへの追加
+    scene.add(plane);
+    //平面オブジェクトの位置座標を設定
+    plane.position.set(0, 0, 0);
+}
     
     
+///////////////////
+    //無限ループ関数の定義
+///////////////////
+
+//グローバル変数の宣言
+
+var step = 0; //ステップ数
+    function loop(){
+        //トラックボールによる
+        //カメラオブジェクトのプロパティの更新
+        trackball.update();
+        
+        //ステップ数のインクリメント
+        step++;
+        
+        //レンダリング
+        
+        renderer.render(scene, camera);
+        
+        //画像生成
+        makePicture();
+        
+        //「loop()」関数の呼び出し
+        requestAnimationFrame(loop);
+        
+        
+        
+    }
+    
+////////////
+//画像作成用
+///////////
+var makePictureFlag = false;
+    
+//画像作成イベント
+window.addEventListener('keydown',function(e){
+    
+    var keyChar = String.fromCharCode( e.keyCode).toLowerCase();
+    
+    //キーボードイベント時のキー取得
+    var keyChar = String.fromCharCode( e.keyCode).toLowerCase();
+    
+    //キーボードの「s」が押された場合
+    if(keyChar == "s"){
+        makePictureFlag = true;
+    }
+    
+});
+
+//画像作成関数
+    function makePicture(){
+        if(!makePictureFlag) return;
+        //グラフィックスが描写されたcanvas要素
+        var canvas = renderer.domElemnt;
+        
+        //a要素の生成
+        var a = document.createElement("a");
+        //canvas要素→DataURL形式
+        a.href = canvas.toDataURL("image/png");
+        //PNGファイル名の命名
+        a.download = "picture";
+        a.innerHTML = "ダウンロード";
+        
+        //id="thumbnails"のdiv要素の子要素にa要素を追加
+        document.getElementByName("body")
+        [0].appendChild(a);
+        
+        makePictureFlag = false;
+    }
     
     
+
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 </script>
 
 </head>
 
 <body>
+    
+<div id="canvas-frame"></div>
+<!--   canvas要素を配置するdiv要素-->
     
 </body>
 </html>
