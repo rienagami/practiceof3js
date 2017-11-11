@@ -6,10 +6,11 @@
     <script src="js/three.js_r75/build/three.js"></script>
     <script src="js/three.js_r75/examples/js/controls/TrackballControls.js"></script>
     <style>
+/*  ↓↓↓↓↓↓↓↓↓これを消したら表示全部消えた  ↓↓↓↓↓↓↓↓↓*/
         *{padding:0px; margin:0px}
         div#canvas-frame{
-            width: 500px;
-            height: 500px;
+            width: 1200px;
+            height: 700px;
             overflow:hidden;
         }
     </style>
@@ -17,6 +18,7 @@
 ////////////////////////////////////////////
 //windowイベントの定義
 ////////////////////////////////////////////
+/*  ↓↓↓↓↓↓↓↓↓これを消したら表示全部消えた  ↓↓↓↓↓↓↓↓↓*/
 window.addEventListener("load",function(){
 threeStart(); //Three.jsのスタート関数の実行
 });
@@ -24,6 +26,9 @@ threeStart(); //Three.jsのスタート関数の実行
 ////////////////////////////////////////////
 //Three.jsスタート関数の定義    
 ////////////////////////////////////////////   
+/*  ↓↓↓↓↓↓↓↓↓initはイニシャルの意味。初期化する時に書くっぽい。 ↓↓↓↓↓↓↓↓↓*/
+//関数（function)でThree.jsのスタートの宣言
+//
 function threeStart(){
     initThree();  //Three.js初期化関数の実行
     initObject(); //オブジェクト初期化関数の実行

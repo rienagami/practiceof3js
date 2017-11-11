@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>軸を学ぶ！！！</title>
+<!--↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓Three.js用ライブラリ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓   -->
+<script src="js/three.js_r75/build/three.js"></script>
+<style>
+/*（この*マークって何の意味があるのだろう。英単語みたいに辞書ほしい・・・）*/
+    *{padding:0px; margin:0px}
+/*（このdivの書き方ってそもそもstyleタグの中（BODYタグの外）だからこういう書き方なのかしら？？？）*/
+    div#canvas-frame{
+/* 自動生成されるcanvas要素の横幅・縦幅(３DCGが表示されるキャンバス要素の大きさってことで良いはず。ですよね？？）*/
+        width: 500px; 
+        height:500px;
+    }
+</style>
+<script>
+/////////////////////////////////////////////////////////////
+//windowイベントの定義（ん？そもそもwindowイベントの定義って何？？？？
+////////////////////////////////////////////////////////////
+//HTML文書読み込み完了後に実行するイベントの定義(上から下に読み込むというコードへの対応？)
+window.addEventListener("load",function(){
+    threeStart();     //three.jsのスタート関数の実行
+});
+
+/////////////////////////////////////////////////////////////
+//three.jsスタート関数の定義
+/////////////////////////////////////////////////////////////
+//threeStartっていう関数を作る
+function threeStart(){
+    initThree();    //three.js初期化関数の実行
+    initCamera();   //カメラ初期化関数の実行
+    initObject();   //オブジェクト初期化関数の実行
+    draw();         //描写実行関数の実行
+}
+
+/////////////////////////////////////////////////////////////
+//three.js初期化関数の定義
+////////////////////////////////////////////////////////////
+//グローバル変数の宣言
+    var renderer,    //レンダラーオブジェクト
+        scene,       //シーンオブジェクト
+        canvasFrame;   //額縁のDOM要素
+function initThree(){
+    //額縁DOM要素の取得
+    canvasFrame = document.getElementById('canvas-frame');
+    //レンダラーオブジェクトの生成
+    renderer = new THREE.WebGLRenderer();
+    if(!renderer) alert('three.jsの初期化に失敗しました');
+    //レンダラーオブジェクトのサイズ設定
+    renderer.setSize(canvasFrame.clinetWidth,canvasFrame.clientHeight);
+    //額縁DOM要素にcanvas要素を追加
+    canvasFrame.appendChild(renderer.domElement);
+    //レンダラーオブジェクトのクリアカラーの設定
+    renderer.setClearColorHex(0x000000, 1.0);
+    //シーンオブジェクトの生成
+    scene = new THREE.Scene();
+}
+    
+///////////////////////////////////////////////////////////
+//カメラ初期化関数の定義
+//////////////////////////////////////////////////////////
+//グローバル変数の宣言
+var camera;   //カメラオブジェクト
+    function initCamera(){
+        //カメラオブジェクトの生成
+    camera = new THREE.PerspectiveCamera(45,  //←カメラの視野角
+                                        canvasFrame.clientWidth/canvasFrame.clientHeight,1,10000);
+        //カメラの位置の設定
+    camera.position.set(50,50,100);    //カメラオブジェクトの位置座標
+    //カメラの上ベクトルの設定
+        camera.up.set(0,0,1);
+        //カメラの中心一ベクトルの設定
+        camera.lookAt({x:0,y:0,z:0});
+    }
+    ///////////////////////////////////
+    //オブジェクト初期化関数の定義
+    ///////////////////////////////////
+    //グローバル変数の宣言
+    var axis; //軸オブジェクト
+    
+    function initObject(){
+        //軸オブジェクトの生成
+    axis = new THREE.AxisHelper(50);
+    //軸オブジェクトのシーンへの追加
+    scene.add(axis);
+        //軸オブジェクトの位置座標を設定
+        axis.position.set(0,0,0);
+    }
+    
+////////////////////////
+//描画関数の定義
+//////////////////////
+    function draw(){
+        //レンダリング
+        renderer.render(scene,camera);
+    }
+    
+
+</script>    
+
+</head>
+<body>
+ 
+<div id="canvas-frame"></div>              <!-- canvas要素を配置するdiv要素   -->
+       
+             
+</body>
+</html>
