@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Threejsの練習</title>
+    <style>canvas { width: 100%; height: 100% }</style>
+</head>
+<body>
+    
+    <script src="js/jquery-2.1.3.min.js"></script>
+<!--Three.jsオブジェクトの宣言-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+   
+        <script>
+            
+//02 シーンとカメラを定める
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(30, width / height, 1, 1000);
+
+        camera.position.z = 100;
+        
+        
+//03 レンダラーで<canvas>要素をつくってページに加える
+//カメラの映したシーンを描くのがレンダラー
+//コンストラクタTHREE.WebGLRenderer()で<canvas>要素をつくる。引数は省く。
+//幅と高さはWebGLRenderer.setSize()メソッドで決める(デフォルト値300×150ピクセル)。<canvas>要素はページに加えなければいけない。WebGLRenderer.domElementプロパティで参照できるので、<body>要素に差し込んだ。これらの処理は関数(createRenderer())として定め、戻り値のレンダラーは変数に納める(renderer)。
+            
+        var renderer = createRenderer(width, height);
+
+function createRenderer(width, height) {
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize(width, height);
+	document.body.appendChild(renderer.domElement);
+	return renderer;
+}
+   
+            
+//04 立方体をつくってシーンに加える
+//直方体のジオメトリーをつくるのは、THREE.BoxGeometry()メソッド
+            
+        
+var side = Math.min(width, height) / 50;
+
+var cube = createCube(side, side, side);
+
+scene.add(cube);
+
+function createCube(width, height, depth) {
+	var geometry = new THREE.BoxGeometry(width, height, depth);
+	var material = new THREE.MeshNormalMaterial();
+	var cube = new THREE.Mesh(geometry, material);
+	return cube;
+}
+        
+        renderer.render(scene, camera);
+
+        
+//■3次元空間に立方体を描く
+            
+var width = window.innerWidth;
+var height = window.innerHeight;
+var side = Math.min(width, height) / 50;
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(30, width / height, 1, 1000);
+var renderer = createRenderer(width, height);
+var cube = createCube(side, side, side);
+camera.position.z = 100;
+scene.add(cube);
+function createRenderer(width, height) {
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize(width, height);
+	document.body.appendChild(renderer.domElement);
+	return renderer;
+}
+function createCube(width, height, depth) {
+	var geometry = new THREE.BoxGeometry(width, height, depth);
+	var material = new THREE.MeshNormalMaterial();
+	var cube = new THREE.Mesh(geometry, material);
+	return cube;
+}
+renderer.render(scene, camera);
+        
+
+            
+//■立方体をアニメーションで回す
+// renderer.render(scene, camera);
+function update() {
+	cube.rotation.x += 0.01;
+	cube.rotation.y += 0.01;
+	requestAnimationFrame(update);
+	renderer.render(scene, camera);
+}
+update();
+        
+ 
+//■3次元空間につくった立方体をアニメーションで回す
+        var width = window.innerWidth;
+var height = window.innerHeight;
+var side = Math.min(width, height) / 50;
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(30, width / height, 1, 1000);
+var renderer = createRenderer(width, height);
+var cube = createCube(side, side, side);
+camera.position.z = 100;
+scene.add(cube);
+function createRenderer(width, height) {
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize(width, height);
+	document.body.appendChild(renderer.domElement);
+	return renderer;
+}
+function createCube(width, height, depth) {
+	var geometry = new THREE.BoxGeometry(width, height, depth);
+	var material = new THREE.MeshNormalMaterial();
+	var cube = new THREE.Mesh(geometry, material);
+	return cube;
+}
+function update() {
+	cube.rotation.x += 0.01;
+	cube.rotation.y += 0.01;
+	requestAnimationFrame(update);
+	renderer.render(scene, camera);
+}
+update();
+        
+    </script>
+</body>
+</html>
